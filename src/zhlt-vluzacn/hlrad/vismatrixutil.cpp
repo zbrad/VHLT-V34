@@ -42,7 +42,7 @@ int             FindTransferOffsetPatchnum(transfer_index_t* tIndex, const patch
             unsigned int    rval = 0;
             transfer_index_t* pIndex = tIndex;
 
-            for (x = 0; x < offset; x++, pIndex++)
+            for (x = 0; x < (unsigned)offset; x++, pIndex++)
             {
                 rval += pIndex->size + 1;
             }
@@ -234,7 +234,6 @@ void            MakeScales(const int threadnum)
     float           trans;
     patch_t*        patch;
     patch_t*        patch2;
-    float           send;
     vec3_t          origin;
     vec_t           area;
     const vec_t*    normal1;
@@ -732,7 +731,6 @@ void            MakeRGBScales(const int threadnum)
     float           trans_one;
     patch_t*        patch;
     patch_t*        patch2;
-    float           send;
     vec3_t          origin;
     vec_t           area;
     const vec_t*    normal1;

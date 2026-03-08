@@ -52,7 +52,6 @@ static void     InitHash(const vec3_t mins, const vec3_t maxs)
     vec3_t          size;
     vec_t           volume;
     vec_t           scale;
-    int             newsize[2];
 
 #ifdef HLBSP_HASH_FIX
 	// Let's ignore the parameters and make things more predictable, so there won't be strange cases such as division by 0 or extreme scaling values.
@@ -81,6 +80,7 @@ static void     InitHash(const vec3_t mins, const vec3_t maxs)
 	hash_scale[0] = hash_numslots[0] / size[0];
 	hash_scale[1] = hash_numslots[1] / size[1];
 #else
+    int             newsize[2];
     newsize[0] = size[0] / scale;
     newsize[1] = size[1] / scale;
 

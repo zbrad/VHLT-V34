@@ -767,7 +767,7 @@ static bool     PlacePatchInside(patch_t* patch)
 	if (!found)
 #endif
 	{
-		for (int i = 0; i < patch->winding->m_NumPoints; i++)
+		for (int i = 0; i < (int)patch->winding->m_NumPoints; i++)
 		{
 			const vec_t *p1;
 			const vec_t *p2;
@@ -853,7 +853,7 @@ static void		UpdateEmitterInfo (patch_t *patch)
 	const vec_t *origin = patch->origin;
 	const Winding *winding = patch->winding;
 	vec_t radius = ON_EPSILON;
-	for (int x = 0; x < winding->m_NumPoints; x++)
+	for (int x = 0; x < (int)winding->m_NumPoints; x++)
 	{
 		vec3_t delta;
 		vec_t dist;
@@ -940,7 +940,7 @@ static void     cutWindingWithGrid (patch_t *patch, const dplane_t *plA, const d
 
 		minA = minB = BOGUS_RANGE;
 		maxA = maxB = -BOGUS_RANGE;
-		for (int x = 0; x < winding->m_NumPoints; x++)
+		for (int x = 0; x < (int)winding->m_NumPoints; x++)
 		{
 			vec_t *point;
 			vec_t dotA;
@@ -1884,7 +1884,7 @@ static void     MakePatchForFace(const int fn, Winding* w
 			else
 			{
 				int x;
-				for (x = 0; x < g_opaque_face_count; x++)
+				for (x = 0; x < (int)g_opaque_face_count; x++)
 				{
 					opaqueList_t *op = &g_opaque_face_list[x];
 	#ifdef HLRAD_OPAQUE_NODE
@@ -2283,7 +2283,7 @@ static void		LoadOpaqueEntities()
 	{
 		Log("%i opaque models\n", g_opaque_face_count);
 		int i, facecount;
-		for (facecount = 0, i = 0; i < g_opaque_face_count; i++)
+		for (facecount = 0, i = 0; i < (int)g_opaque_face_count; i++)
 		{
 			facecount += CountOpaqueFaces (g_opaque_face_list[i].modelnum);
 		}
@@ -3907,9 +3907,11 @@ static void ExtendLightmapBuffer ()
 // =====================================================================================
 static void     RadWorld()
 {
-    unsigned        i;
+#ifndef HLRAD_AUTOCORING
+	unsigned        i;
 #ifdef ZHLT_TEXLIGHT
-    unsigned        j;
+	unsigned        j;
+#endif
 #endif
 
     MakeBackplanes();
@@ -3937,7 +3939,7 @@ static void     RadWorld()
 			int j, k;
 			patch_t *patch;
 			vec3_t v;
-			for (j = 0, patch = g_patches; j < g_num_patches; j++, patch++)
+			for (j = 0, patch = g_patches; j < (int)g_num_patches; j++, patch++)
 			{
 				if (patch->flags == ePatchFlagOutside)
 					continue;

@@ -70,11 +70,11 @@ static unsigned IsVisbitInArray(const unsigned x, const unsigned y)
         current = (first + last) / 2;
         row = column->row + current;
         //        Warning("first %u, last %u, current %u, row %p, row->offset %u", first, last, current, row, row->offset);
-        if ((row->offset) < y_byte)
+        if ((row->offset) < (unsigned)y_byte)
         {
             first = current + 1;
         }
-        else if ((row->offset) > y_byte)
+        else if ((row->offset) > (unsigned)y_byte)
         {
             last = current - 1;
         }
@@ -104,12 +104,12 @@ static void		SetVisColumn (int patchnum, bool uncompressedcolumn[MAX_SPARSE_VISM
 		Error ("SetVisColumn: column has been set");
 	}
 
-	for (mbegin = 0; mbegin < g_num_patches; mbegin += 8)
+	for (mbegin = 0; mbegin < (int)g_num_patches; mbegin += 8)
 	{
 		bits = 0;
 		for (m = mbegin; m < mbegin + 8; m++)
 		{
-			if (m >= g_num_patches)
+			if (m >= (int)g_num_patches)
 			{
 				break;
 			}
@@ -136,12 +136,12 @@ static void		SetVisColumn (int patchnum, bool uncompressedcolumn[MAX_SPARSE_VISM
 	hlassume (column->row != NULL, assume_NoMemory);
 	
 	i = 0;
-	for (mbegin = 0; mbegin < g_num_patches; mbegin += 8)
+	for (mbegin = 0; mbegin < (int)g_num_patches; mbegin += 8)
 	{
 		bits = 0;
 		for (m = mbegin; m < mbegin + 8; m++)
 		{
-			if (m >= g_num_patches)
+			if (m >= (int)g_num_patches)
 			{
 				break;
 			}
@@ -635,10 +635,16 @@ static void     BuildVisRow(const int patchnum, byte* pvs, const int head)
 static void     BuildVisLeafs(int threadnum)
 {
     int             i;
+#ifndef HLRAD_SPARSEVISMATRIX_FAST
     int             lface, facenum, facenum2;
+#else
+    int             facenum, facenum2;
+#endif
     byte            pvs[(MAX_MAP_LEAFS + 7) / 8];
     dleaf_t*        srcleaf;
+#ifndef HLRAD_SPARSEVISMATRIX_FAST
     dleaf_t*        leaf;
+#endif
     patch_t*        patch;
     int             head;
     unsigned        patchnum;
@@ -699,7 +705,7 @@ static void     BuildVisLeafs(int threadnum)
 					continue;
 				patchnum = patch - g_patches;
 	#ifdef HLRAD_SPARSEVISMATRIX_FAST
-				for (int m = 0; m < g_num_patches; m++)
+				for (int m = 0; m < (int)g_num_patches; m++)
 				{
 					uncompressedcolumn[m] = false;
 				}

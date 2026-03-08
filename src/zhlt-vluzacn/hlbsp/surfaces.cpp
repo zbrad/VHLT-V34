@@ -222,7 +222,6 @@ static void     InitHash()
     vec3_t          size;
     vec_t           volume;
     vec_t           scale;
-    int             newsize[2];
     int             i;
 
     memset(hashverts, 0, sizeof(hashverts));
@@ -250,6 +249,7 @@ static void     InitHash()
 	hash_scale[0] = hash_numslots[0] / size[0];
 	hash_scale[1] = hash_numslots[1] / size[1];
 #else
+    int             newsize[2];
     newsize[0] = size[0] / scale;
     newsize[1] = size[1] / scale;
 

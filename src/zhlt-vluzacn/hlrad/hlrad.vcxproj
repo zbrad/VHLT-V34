@@ -89,6 +89,7 @@
       <StackReserveSize>4194304</StackReserveSize>
       <StackCommitSize>1048576</StackCommitSize>
       <EnableUAC>false</EnableUAC>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,6 +131,7 @@
       <StackReserveSize>4194304</StackReserveSize>
       <StackCommitSize>1048576</StackCommitSize>
       <EnableUAC>false</EnableUAC>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

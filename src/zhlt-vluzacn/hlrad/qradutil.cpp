@@ -260,12 +260,12 @@ dleaf_t*        HuntForWorld(vec_t* point, const vec_t* plane_offset, const dpla
 #ifdef HLRAD_OPAQUE_BLOCK
 					{
 						int x;
-						for (x = 0; x < g_opaque_face_count; x++)
+						for (x = 0; x < (int)g_opaque_face_count; x++)
 						{
 							if (TestPointOpaque (g_opaque_face_list[x].modelnum, g_opaque_face_list[x].origin, g_opaque_face_list[x].block, current_point))
 								break;
 						}
-						if (x < g_opaque_face_count)
+						if (x < (int)g_opaque_face_count)
 							continue;
 					}
 #endif
@@ -724,7 +724,7 @@ void FindFacePositions (int facenum)
 	map->facewinding = new Winding (*f);
 	map->faceplane = *getPlaneFromFace (f);
 	map->facewindingwithoffset = new Winding (map->facewinding->m_NumPoints);
-	for (x = 0; x < map->facewinding->m_NumPoints; x++)
+	for (x = 0; x < (int)map->facewinding->m_NumPoints; x++)
 	{
 		VectorAdd (map->facewinding->m_Points[x], map->face_offset, map->facewindingwithoffset->m_Points[x]);
 	}
@@ -732,7 +732,7 @@ void FindFacePositions (int facenum)
 	map->faceplanewithoffset.dist = map->faceplane.dist + DotProduct (map->face_offset, map->faceplane.normal);
 
 	map->texwinding = new Winding (map->facewinding->m_NumPoints);
-	for (x = 0; x < map->facewinding->m_NumPoints; x++)
+	for (x = 0; x < (int)map->facewinding->m_NumPoints; x++)
 	{
 		ApplyMatrix (map->worldtotex, map->facewinding->m_Points[x], map->texwinding->m_Points[x]);
 		map->texwinding->m_Points[x][2] = 0.0;
@@ -759,7 +759,7 @@ void FindFacePositions (int facenum)
 	ApplyMatrix (map->worldtotex, v, map->texcentroid);
 	map->texcentroid[2] = 0.0;
 
-	for (x = 0; x < map->texwinding->m_NumPoints; x++)
+	for (x = 0; x < (int)map->texwinding->m_NumPoints; x++)
 	{
 		for (k = 0; k < 2; k++)
 		{
@@ -985,7 +985,7 @@ bool FindNearestPosition (int facenum, const Winding *texwinding, const dplane_t
 	itmax = -1;
 	ismin = map->w;
 	ismax = -1;
-	for (x = 0; x < texwinding->m_NumPoints; x++)
+	for (x = 0; x < (int)texwinding->m_NumPoints; x++)
 	{
 		it = (int)floor ((texwinding->m_Points[x][1] - map->start[1] + 0.5 * ON_EPSILON) / map->step[1]);
 		itmin = qmin (itmin, it);

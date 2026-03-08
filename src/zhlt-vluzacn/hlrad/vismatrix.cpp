@@ -281,10 +281,16 @@ static void     BuildVisRow(const int patchnum, byte* pvs, const int head, const
 static void     BuildVisLeafs(int threadnum)
 {
     int             i;
+#ifndef HLRAD_SPARSEVISMATRIX_FAST
     int             lface, facenum, facenum2;
+#else
+    int             facenum, facenum2;
+#endif
     byte            pvs[(MAX_MAP_LEAFS + 7) / 8];
     dleaf_t*        srcleaf;
+#ifndef HLRAD_SPARSEVISMATRIX_FAST
     dleaf_t*        leaf;
+#endif
     patch_t*        patch;
     int             head;
     unsigned        bitpos;
