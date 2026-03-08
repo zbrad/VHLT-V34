@@ -226,7 +226,7 @@ surfacetree_t;
 
 void BuildSurfaceTree_r (surfacetree_t *tree, surfacetreenode_t *node)
 {
-	node->size = node->leaffaces->size ();
+	node->size = (int)node->leaffaces->size ();
 #ifdef HLCSG_HLBSP_SOLIDHINT
 	node->size_discardable = 0;
 #endif

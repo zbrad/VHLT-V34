@@ -572,12 +572,12 @@ void            MakeScales(const int threadnum)
         if (patch->iData)
         {
 #ifdef HLRAD_TRANSFERDATA_COMPRESS
-			unsigned	data_size = patch->iData * float_size[g_transfer_compress_type] + unused_size;
+			size_t		data_size = patch->iData * float_size[g_transfer_compress_type] + unused_size;
 #else
-            unsigned        data_size = patch->iData * sizeof(transfer_data_t);
+			size_t          data_size = patch->iData * sizeof(transfer_data_t);
 #endif
 
-            patch->tData = (transfer_data_t*)AllocBlock(data_size);
+            patch->tData = (transfer_data_t*)AllocBlock((unsigned long)data_size);
             patch->tIndex = CompressTransferIndicies(tIndex_All, patch->iData, &patch->iIndex);
 
             hlassume(patch->tData != NULL, assume_NoMemory);
@@ -1123,15 +1123,15 @@ void            MakeRGBScales(const int threadnum)
         }
 
         // copy the transfers out
-        if (patch->iData)
-        {
+		if (patch->iData)
+		{
 #ifdef HLRAD_TRANSFERDATA_COMPRESS
-			unsigned	data_size = patch->iData * vector_size[g_rgbtransfer_compress_type] + unused_size;
+			size_t		data_size = patch->iData * vector_size[g_rgbtransfer_compress_type] + unused_size;
 #else
-            unsigned data_size = patch->iData * sizeof(rgb_transfer_data_t);
+			size_t data_size = patch->iData * sizeof(rgb_transfer_data_t);
 #endif
 
-            patch->tRGBData = (rgb_transfer_data_t*)AllocBlock(data_size);
+			patch->tRGBData = (rgb_transfer_data_t*)AllocBlock((unsigned long)data_size);
             patch->tIndex = CompressTransferIndicies(tIndex_All, patch->iData, &patch->iIndex);
 
             hlassume(patch->tRGBData != NULL, assume_NoMemory);

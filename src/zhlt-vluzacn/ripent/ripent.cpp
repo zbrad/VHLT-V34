@@ -623,7 +623,7 @@ static void		WriteTextures(const char* const name)
 #else
 				fprintf (texfile, "[%d]", strlen(tex->name));
 #endif
-				SafeWrite (texfile, tex->name, strlen(tex->name));
+				SafeWrite (texfile, tex->name, (int)strlen(tex->name));
 				fprintf (texfile, " %d %d\r\n", tex->width, tex->height);
 			}
 		}
