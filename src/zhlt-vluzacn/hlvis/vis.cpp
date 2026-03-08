@@ -346,7 +346,7 @@ static portal_t* GetNextPortal()
     int             j;
     portal_t*       p;
     portal_t*       tp;
-    int             min;
+    unsigned        min;
 
 #ifdef ZHLT_NETVIS
     if (g_vismode == VIS_MODE_SERVER)
@@ -682,7 +682,7 @@ static void     LeafFlow(const int leafnum)
 	memset (buffer2, 0, diskbytes);
 	for (i = 0; i < g_portalleafs; i++)
 	{
-		for (j = 0; j < g_leafcounts[i]; j++)
+		for (j = 0; j < (unsigned)g_leafcounts[i]; j++)
 		{
 			int srcofs = i >> 3;
 			int srcbit = 1 << (i & 7);
@@ -708,7 +708,7 @@ static void     LeafFlow(const int leafnum)
     }
 
 #ifdef ZHLT_DETAILBRUSH
-	for (j = 0; j < g_leafcounts[leafnum]; j++)
+	for (j = 0; j < (unsigned)g_leafcounts[leafnum]; j++)
 	{
 		g_dleafs[g_leafstarts[leafnum] + j + 1].visofs = dest - vismap;
 	}
@@ -1156,7 +1156,7 @@ static void     LoadPortals(char* portal_image)
 		Error ("Too many portalleafs (g_portalleafs(%d) > MAX_MAP_LEAFS(%d)).", g_portalleafs, MAX_MAP_LEAFS);
 	}
 	g_leafcount_all = 0;
-	for (i = 0; i < g_portalleafs; i++)
+	for (i = 0; i < (int)g_portalleafs; i++)
 	{
 		unsigned rval = 0;
 		token = strtok(NULL, seperators);
@@ -1175,9 +1175,9 @@ static void     LoadPortals(char* portal_image)
 	}
 #endif
 #ifdef HLVIS_OVERVIEW
-	for (i = 0; i < g_portalleafs; i++)
+	for (i = 0; i < (int)g_portalleafs; i++)
 	{
-		for (j = 0; j < g_overview_count; j++)
+		for (j = 0; j < (int)g_overview_count; j++)
 		{
 #ifdef ZHLT_DETAILBRUSH
 			int d = g_overview[j].visleafnum - g_leafstarts[i];

@@ -49,7 +49,7 @@ bool TestFaceIntersect (intersecttest_t *t, int facenum)
 	dface_t *f2 = &g_dfaces[facenum];
 	Winding *w = new Winding (*f2);
 	int k;
-	for (k = 0; k < w->m_NumPoints; k++)
+	for (k = 0; k < (int)w->m_NumPoints; k++)
 	{
 		VectorAdd (w->m_Points[k], g_face_offset[facenum], w->m_Points[k]);
 	}
@@ -1385,7 +1385,7 @@ void ChopFrag (samplefrag_t *frag)
 
 	TranslateWorldToTex (frag->facenum, worldtotex);
 	frag->mywinding = new Winding (facewinding->m_NumPoints);
-	for (int x = 0; x < facewinding->m_NumPoints; x++)
+	for (int x = 0; x < (int)facewinding->m_NumPoints; x++)
 	{
 		ApplyMatrix (worldtotex, facewinding->m_Points[x], frag->mywinding->m_Points[x]);
 		frag->mywinding->m_Points[x][2] = 0.0;
@@ -1404,7 +1404,7 @@ void ChopFrag (samplefrag_t *frag)
 	}
 
 	frag->winding = new Winding (frag->mywinding->m_NumPoints);
-	for (int x = 0; x < frag->mywinding->m_NumPoints; x++)
+	for (int x = 0; x < (int)frag->mywinding->m_NumPoints; x++)
 	{
 		ApplyMatrix (frag->mycoordtocoord, frag->mywinding->m_Points[x], frag->winding->m_Points[x]);
 	}
@@ -1609,7 +1609,7 @@ static samplefrag_t *GrowSingleFrag (const samplefraginfo_t *info, samplefrag_t 
 	clipplanes = (dplane_t *)malloc (frag->winding->m_NumPoints * sizeof (dplane_t));
 	hlassume (clipplanes != NULL, assume_NoMemory);
 	numclipplanes = 0;
-	for (int x = 0; x < frag->winding->m_NumPoints; x++)
+	for (int x = 0; x < (int)frag->winding->m_NumPoints; x++)
 	{
 		vec3_t v;
 		VectorSubtract (frag->winding->m_Points[(x + 1) % frag->winding->m_NumPoints], frag->winding->m_Points[x], v);
@@ -1965,7 +1965,7 @@ static light_flag_t SetSampleFromST(vec_t* const point,
 			ThreadLock ();
 			Log ("Malformed face (%d) normal @ \n", facenum);
 			Winding* w = new Winding (g_dfaces[facenum]);
-			for (int x = 0; x < w->m_NumPoints; x++)
+			for (int x = 0; x < (int)w->m_NumPoints; x++)
 			{
 				VectorAdd (w->m_Points[x], g_face_offset[facenum], w->m_Points[x]);
 			}
@@ -5096,7 +5096,7 @@ static void AddSamplesToPatches (const sample_t **samples, const unsigned char *
 	for (j = 0, patch = g_face_patches[facenum]; j < numtexwindings; j++, patch = patch->next)
 	{
 		Winding *w = new Winding (patch->winding->m_NumPoints);
-		for (int x = 0; x < w->m_NumPoints; x++)
+		for (int x = 0; x < (int)w->m_NumPoints; x++)
 		{
 			vec_t s, t;
 			SetSTFromSurf (l, patch->winding->m_Points[x], s, t);
@@ -5690,7 +5690,7 @@ void CalcLightmap (lightinfo_t *l, byte *styles)
 				Winding *surfacewinding = new Winding (g_dfaces[surface]);
 				
 				VectorCopy (spot, spot2);
-				for (int x = 0; x < surfacewinding->m_NumPoints; x++)
+				for (int x = 0; x < (int)surfacewinding->m_NumPoints; x++)
 				{
 					VectorAdd (surfacewinding->m_Points[x], g_face_offset[surface], surfacewinding->m_Points[x]);
 				}
@@ -5987,7 +5987,6 @@ void            BuildFacelights(const int facenum)
     int             size;
 #ifdef HLRAD_TRANSLUCENT
 	vec3_t			spot2, normal2;
-	vec3_t			delta;
 	byte			pvs2[(MAX_MAP_LEAFS + 7) / 8];
 	int				thisoffset2 = -1, lastoffset2 = -1;
 #endif
@@ -7575,7 +7574,6 @@ void            PrecompLightmapOffsets()
     int             lightstyles;
 
 #ifdef ZHLT_TEXLIGHT
-    int             i; //LRC
 	patch_t*        patch; //LRC
 #endif
 
@@ -8647,9 +8645,9 @@ void            FinalLightFace(const int facenum)
 			Log ("Error.\n");
 	}
 #endif
-    int             i, j, k;
-    vec3_t          lb, v;
-    facelight_t*    fl;
+	int             i, j, k;
+	vec3_t          lb;
+	facelight_t*    fl;
     sample_t*       samp;
     float           minlight;
     int             lightstyles;

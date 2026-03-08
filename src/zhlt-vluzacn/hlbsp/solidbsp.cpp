@@ -480,9 +480,9 @@ static surface_t* ChooseMidPlaneFromList(surface_t* surfaces, const vec3_t mins,
 #endif
 										 )
 {
-    int             j, l;
-    surface_t*      p;
-    surface_t*      bestsurface;
+	int             l;
+	surface_t*      p;
+	surface_t*      bestsurface;
     vec_t           bestvalue;
     vec_t           value;
     vec_t           dist;
@@ -590,7 +590,8 @@ static surface_t* ChooseMidPlaneFromList(surface_t* surfaces, const vec3_t mins,
 		// the first part is how the split will increase the number of faces
 		// the second part is how the split will increase the average depth of the bsp tree
 #else
-        for (j = 0; j < 3; j++)
+		int             j;
+		for (j = 0; j < 3; j++)
         {
             if (j == l)
             {
@@ -657,7 +658,9 @@ static surface_t* ChoosePlaneFromList(surface_t* surfaces, const vec3_t mins, co
 									  )
 {
 	surface_t*      p;
+	#ifndef HLBSP_FAST_SELECTPARTITION
 	surface_t*      p2;
+#endif
 	surface_t*      bestsurface;
 	vec_t           bestvalue;
 	vec_t           value;
@@ -2113,11 +2116,11 @@ static bool     CalcNodeBounds(node_t* node
         }
         next_portal = p->next[side];
 
-        for (i = 0; i < p->winding->m_NumPoints; i++)
-        {
-            for (j = 0; j < 3; j++)
-            {
-                v = p->winding->m_Points[i][j];
+		for (i = 0; i < (int)p->winding->m_NumPoints; i++)
+		{
+			for (j = 0; j < 3; j++)
+			{
+				v = p->winding->m_Points[i][j];
                 if (v < node->mins[j])
                 {
                     node->mins[j] = v;

@@ -17,6 +17,18 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# vscode cache/options directory
+.vscode/
+
+# Visual Studio 2015/2017 cache/options directory	
+.vs/
+
+# Visual Studio 2017 auto generated files
+Generated\ Files/
+
+# Github for Visual Studio cache/options directory
+.github/
+
 # =========================
 # Operating System Files
 # =========================
