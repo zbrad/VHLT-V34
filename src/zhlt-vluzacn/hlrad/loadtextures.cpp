@@ -182,7 +182,7 @@ void TryOpenWadFiles ()
 		const char *value = ValueForKey (&g_entities[0], "wad");
 		char path[MAX_VAL];
 		int i, j;
-		for (i = 0, j = 0; i < strlen(value) + 1; i++)
+		for (i = 0, j = 0; i < (int)(strlen(value) + 1); i++)
 		{
 			if (value[i] == ';' || value[i] == '\0')
 			{

@@ -195,7 +195,7 @@ vec_t			snap_to_winding_noedge(const Winding& w, const dplane_t& plane, vec_t* c
 	planes = (dplane_t *)malloc (w.m_NumPoints * sizeof (dplane_t));
 	hlassume (planes != NULL, assume_NoMemory);
 	numplanes = 0;
-	for (x = 0; x < w.m_NumPoints; x++)
+	for (x = 0; x < (int)w.m_NumPoints; x++)
 	{
 		VectorSubtract (w.m_Points[(x + 1) % w.m_NumPoints], w.m_Points[x], v);
 		CrossProduct (v, plane.normal, planes[numplanes].normal);
@@ -546,7 +546,7 @@ bool            TestSegmentAgainstOpaqueList(const vec_t* p1, const vec_t* p2
 #ifdef HLRAD_OPAQUE_STYLE
 	opaquestyleout = -1;
 #endif
-    for (x = 0; x < g_opaque_face_count; x++)
+	for (x = 0; x < (int)g_opaque_face_count; x++)
 	{
 		if (!TestLineOpaque (g_opaque_face_list[x].modelnum, g_opaque_face_list[x].origin, p1, p2))
 		{
@@ -952,7 +952,7 @@ void GetAlternateOrigin (const vec3_t pos, const vec3_t normal, const patch_t *p
 			}
 			if (!found)
 			{
-				for (int i = 0; i < w.m_NumPoints; i++)
+				for (int i = 0; i < (int)w.m_NumPoints; i++)
 				{
 					const vec_t *p1;
 					const vec_t *p2;

@@ -496,7 +496,7 @@ void WriteDetailBrush (int hull, const bface_t *faces)
 	{
 		Winding *w = f->w;
 		fprintf (out_detailbrush[hull], "%i %u\n", f->planenum, w->m_NumPoints);
-		for (int i = 0; i < w->m_NumPoints; i++)
+		for (int i = 0; i < (int)w->m_NumPoints; i++)
 		{
 			fprintf (out_detailbrush[hull], "%5.8f %5.8f %5.8f\n", w->m_Points[i][0], w->m_Points[i][1], w->m_Points[i][2]);
 		}
@@ -652,7 +652,7 @@ static void     SaveOutside(const brush_t* const b, const int hull, bface_t* out
 				vec_t val;
 				
 				bad = false;
-				for (i = 0; i < f->w->m_NumPoints; i++)
+				for (i = 0; i < (int)f->w->m_NumPoints; i++)
 				{
 					for (j = 0; j < 2; j++)
 					{
@@ -701,7 +701,7 @@ static void     SaveOutside(const brush_t* const b, const int hull, bface_t* out
 #endif
 
             // swap point orders
-            for (i = 0; i < f->w->m_NumPoints / 2; i++)      // add points backwards
+            for (i = 0; i < (int)(f->w->m_NumPoints / 2); i++)      // add points backwards
             {
                 VectorCopy(f->w->m_Points[i], temp);
                 VectorCopy(f->w->m_Points[f->w->m_NumPoints - 1 - i], f->w->m_Points[i]);
@@ -1062,7 +1062,7 @@ static void     CSGBrush(int brushnum)
 						}
 						int valid = 0;
 						int x;
-						for (x = 0; x < w->m_NumPoints; x++)
+						for (x = 0; x < (int)w->m_NumPoints; x++)
 						{
 							vec_t dist = DotProduct (w->m_Points[x], f2->plane->normal) - f2->plane->dist;
 							if (dist >= -ON_EPSILON*4) // only estimate
@@ -1728,7 +1728,7 @@ int typecontents[NUM_TYPECONTENTS] = {
 
 static void     ProcessModels()
 {
-    int             i, j, type;
+    int             i, j;
     int             placed;
     int             first, contents;
     brush_t         temp;

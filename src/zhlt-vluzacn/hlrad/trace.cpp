@@ -609,9 +609,9 @@ bool TryMerge (opaqueface_t *f, const opaqueface_t *f2)
 	const vec_t *pA, *pB, *pC, *pD, *p2A, *p2B, *p2C, *p2D;
 	int i, i2;
 
-	for (i = 0; i < w->m_NumPoints; i++)
+	for (i = 0; i < (int)w->m_NumPoints; i++)
 	{
-		for (i2 = 0; i2 < w2->m_NumPoints; i2++)
+		for (i2 = 0; i2 < (int)w2->m_NumPoints; i2++)
 		{
 			pA = w->m_Points[(i+w->m_NumPoints-1)%w->m_NumPoints];
 			pB = w->m_Points[i];
@@ -750,7 +750,7 @@ void BuildFaceEdges (opaqueface_t *f)
 	vec3_t e;
 	dplane_t *pl;
 	int x;
-	for (x = 0; x < f->winding->m_NumPoints; x++)
+	for (x = 0; x < (int)f->winding->m_NumPoints; x++)
 	{
 		p1 = f->winding->m_Points[x];
 		p2 = f->winding->m_Points[(x+1)%f->winding->m_NumPoints];

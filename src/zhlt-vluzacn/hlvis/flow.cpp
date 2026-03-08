@@ -151,10 +151,10 @@ inline winding_t*      ChopWinding(winding_t* const in, pstack_t* const stack, c
         // generate a split point
         {
             unsigned tmp = i + 1;
-            if (tmp >= in->numpoints)
-            {
-                tmp = 0;
-            }
+			if (tmp >= (unsigned)in->numpoints)
+			{
+				tmp = 0;
+			}
             const vec_t* p2 = in->points[tmp];
 
             dot = dists[i] / (dists[i] - dists[i + 1]);
@@ -246,7 +246,7 @@ inline static winding_t* ClipToSeperators(
     const unsigned int numpoints = source->numpoints;
 
     // check all combinations       
-    for (i=0, l=1; i < numpoints; i++, l++)
+	for (i=0, l=1; i < (int)numpoints; i++, l++)
     {
         if (l == numpoints)
         {
@@ -268,10 +268,10 @@ inline static winding_t* ClipToSeperators(
             }
             plane.dist = DotProduct(pass->points[j], plane.normal);
 
-            // find out which side of the generated seperating plane has the
-            // source portal
-            fliptest = false;
-            for (k = 0; k < numpoints; k++)
+			// find out which side of the generated seperating plane has the
+			// source portal
+			fliptest = false;
+			for (k = 0; k < (int)numpoints; k++)
             {
                 if ((k == i) | (k == l)) // | instead of || for branch optimization
                 {
@@ -456,7 +456,7 @@ inline static void     RecursiveLeafFlow(const int leafnum, const threaddata_t* 
                     long* might = (long*)stack.mightsee;
                 
                     unsigned j;
-                    for (j = 0; j < bitlongs; j++, test++, might++, prevmight++)
+					for (j = 0; j < (unsigned)bitlongs; j++, test++, might++, prevmight++)
                     {
                         (*might) = (*prevmight) & (*test);
                     }
@@ -466,7 +466,7 @@ inline static void     RecursiveLeafFlow(const int leafnum, const threaddata_t* 
                     long* might = (long*)stack.mightsee;
                     long* vis = (long*)thread->leafvis;
                     unsigned j;
-                    for (j = 0; j < bitlongs; j++, might++, vis++)
+					for (j = 0; j < (unsigned)bitlongs; j++, might++, vis++)
                     {
                         if ((*might) & ~(*vis))
                         {
@@ -538,7 +538,7 @@ inline static void     RecursiveLeafFlow(const int leafnum, const threaddata_t* 
         if (stack.clipPlaneCount > 0)
         {
             unsigned j;
-            for (j = 0; j < stack.clipPlaneCount && stack.pass != NULL; j++)
+			for (j = 0; j < (unsigned)stack.clipPlaneCount && stack.pass != NULL; j++)
             {
                 stack.pass = ChopWinding(stack.pass, &stack, &(stack.clipPlane[j]));
             }
@@ -1491,14 +1491,10 @@ vec_t WindingDist (const winding_t *w[2])
 void	MaxDistVis(int unused)
 {
 	int i, j, k, m;
-	int a, b, c, d;
+	int a, b;
 	leaf_t	*l;
 	leaf_t	*tl;
 	plane_t	*boundary = NULL;
-	vec3_t delta;
-
-	float new_dist;
-
 	unsigned offset_l;
 	unsigned bit_l;
 
@@ -1513,7 +1509,7 @@ void	MaxDistVis(int unused)
 
 		l = &g_leafs[i];
 
-		for(j = i + 1, tl = g_leafs + j; j < g_portalleafs; j++, tl++)
+		for(j = i + 1, tl = g_leafs + j; j < (int)g_portalleafs; j++, tl++)
 		{
 #ifdef HLVIS_MAXDIST_NEW
 
@@ -1525,14 +1521,14 @@ void	MaxDistVis(int unused)
 
 			{
 				bool visible = false;
-				for (k = 0; k < l->numportals; k++)
+				for (k = 0; k < (int)l->numportals; k++)
 				{
 					if (l->portals[k]->visbits[offset_tl] & bit_tl)
 					{
 						visible = true;
 					}
 				}
-				for (m = 0; m < tl->numportals; m++)
+				for (m = 0; m < (int)tl->numportals; m++)
 				{	
 					if (tl->portals[m]->visbits[offset_l] & bit_l)
 					{
@@ -1558,7 +1554,7 @@ void	MaxDistVis(int unused)
 				{
 					count[side] = 0;
 					VectorClear (center[side]);
-					for (a = 0; a < leaf[side]->numportals; a++)
+					for (a = 0; a < (int)leaf[side]->numportals; a++)
 					{
 						w = leaf[side]->portals[a]->winding;
 						for (b = 0; b < w->numpoints; b++)
@@ -1576,7 +1572,7 @@ void	MaxDistVis(int unused)
 				{
 					VectorScale (center[side], 1.0 / (vec_t)count[side], center[side]);
 					radius[side] = 0;
-					for (a = 0; a < leaf[side]->numportals; a++)
+					for (a = 0; a < (int)leaf[side]->numportals; a++)
 					{
 						w = leaf[side]->portals[a]->winding;
 						for (b = 0; b < w->numpoints; b++)
@@ -1604,9 +1600,9 @@ void	MaxDistVis(int unused)
 			{
 				vec_t mindist = 9999999999;
 				vec_t dist;
-				for (k = 0; k < l->numportals; k++)
+				for (k = 0; k < (int)l->numportals; k++)
 				{
-					for (m = 0; m < tl->numportals; m++)
+					for (m = 0; m < (int)tl->numportals; m++)
 					{
 						const winding_t *w[2];
 						w[0] = l->portals[k]->winding;
@@ -1625,6 +1621,11 @@ void	MaxDistVis(int unused)
 				}
 			}
 #else
+			{
+			int c, d;
+			vec3_t delta;
+			float new_dist;
+
 			if(j == i)		// Ideally, should never be true
 			{
 				continue;
@@ -1711,22 +1712,23 @@ void	MaxDistVis(int unused)
 						{
 							VectorSubtract(l->portals[a]->winding->points[c], tl->portals[b]->winding->points[d], delta);
 
-							if(VectorLength(delta) <= g_maxdistance)
-								goto NoWork;
-						}
-					}
-				}
-			}
-#endif
+													if(VectorLength(delta) <= g_maxdistance)
+														goto NoWork;
+												}
+											}
+										}
+									}
+									} // end of #else HLVIS_MAXDIST_NEW scope
+							#endif
 
-#ifdef HLVIS_MAXDIST_NEW
-Work:
+							#ifdef HLVIS_MAXDIST_NEW
+							Work:
 			ThreadLock ();
-			for (k = 0; k < l->numportals; k++)
+			for (k = 0; k < (int)l->numportals; k++)
 			{
 				l->portals[k]->visbits[offset_tl] &= ~bit_tl;
 			}
-			for (m = 0; m < tl->numportals; m++)
+			for (m = 0; m < (int)tl->numportals; m++)
 			{
 				tl->portals[m]->visbits[offset_l] &= ~bit_l;
 			}

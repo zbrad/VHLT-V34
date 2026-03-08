@@ -1121,7 +1121,7 @@ static bool TestFarPatch (const localtriangulation_t *lt, const vec3_t p2, const
 	vec_t size2;
 
 	size1 = 0;
-	for (i = 0; i < lt->winding.m_NumPoints; i++)
+	for (i = 0; i < (int)lt->winding.m_NumPoints; i++)
 	{
 		VectorSubtract (lt->winding.m_Points[i], lt->center, v);
 		dist = VectorLength (v);
@@ -1132,7 +1132,7 @@ static bool TestFarPatch (const localtriangulation_t *lt, const vec3_t p2, const
 	}
 
 	size2 = 0;
-	for (i = 0; i < p2winding.m_NumPoints; i++)
+	for (i = 0; i < (int)p2winding.m_NumPoints; i++)
 	{
 		VectorSubtract (p2winding.m_Points[i], p2, v);
 		dist = VectorLength (v);

@@ -12,7 +12,6 @@ int         g_iNumWadPaths = 0;
 // =====================================================================================
 void        PushWadPath(const char* const path, bool inuse)
 {
-    int         i;
     wadpath_t*  current;
 
 #ifdef HLCSG_AUTOWAD_NEW
